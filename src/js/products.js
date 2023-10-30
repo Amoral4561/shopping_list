@@ -5,6 +5,7 @@ const fs = require("fs");
 const ListProducts = require("./ListProducts.js"); // импорт класса
 const openFileFs = require("./openFile.js");
 const showMenu = require("./showMenu.js");
+const outputAnArray = require("./outputAnArray.js");
 const arrayTemporary = new ListProducts(); // Создаем экземпляр класса
 // arrayTemporary.lists.push("Молоко"); пуш работает по такому пути
 function handleMenuChoice(choice) {
@@ -34,22 +35,20 @@ function handleMenuChoice(choice) {
       break;
   }
 }
+// не отображает + /n когда вводишь ноый эленмент и пишет их слитно
 function ArrProduct() {
   rl.question("Введите новые продукты через пробел: ", (input) => {
     const newProduct = input.split(" ");
     arrayTemporary.lists.push(newProduct);
-    arrayTemporary.addDataFile("list.txt"); //пробываьб применить класс
+    arrayTemporary.addDataFile("list.txt");
     openFileFs();
   });
 }
-
+// сделать обработку когда не находит слово
 function RemoteProduct() {
   rl.question("Введите параметр для удаления: ", (SelDelProduct) => {
-    const fileContent = fs.readFileSync("list.txt", "utf8");
-    const productsArray = fileContent
-      .split("\n")
-      .map((product) => product.trim());
-    const SelDelProductIndex = productsArray.indexOf(String(SelDelProduct)); // сделать отдельный модуль
+    const productsArray = outputAnArray();
+    const SelDelProductIndex = productsArray.indexOf(String(SelDelProduct));
     if (SelDelProductIndex !== -1) {
       productsArray.splice(SelDelProductIndex, 1);
     } else {
@@ -60,18 +59,18 @@ function RemoteProduct() {
   });
 }
 
-// переписать функцию на вывод найденого им элемента return
 function SearchProduct() {
-  // как вывести файл в масиив и вернуть найденнное
   rl.question("Введите продукт для поиска: ", (SelProduct) => {
-    const SelProductIndex = products.indexOf(SerProduct);
+    const productsArray = outputAnArray();
+    const SelProductIndex = productsArray.indexOf(SelProduct);
     if (SelProductIndex !== -1)
       console.log(`Продукт найден в индексе: ${SelProductIndex}`);
+    // сделать простой вывод дял пользователя
     else console.log("Продукт не найден.");
     showMenu();
   });
 }
-
+// сортировка масиива в порялка от а до я
 function SortAllProduct() {
   rl.question("Хотите отсротировать масив от Я до А? (да/нет) ", (SortWhat) => {
     if (String(SortWhat) === "да") {
