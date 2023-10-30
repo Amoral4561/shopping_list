@@ -19,17 +19,6 @@ class ListProducts {
     const dataToSave = JSON.stringify(this.lists);
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
   }
-  //метод для загрузки файла
-  // loadFromFile(filePath) {
-  //   try {
-  //     const fileContent = fs.readFileSync(filePath, "utf8");
-  //     this.lists = JSON.parse(fileContent);
-  //     if (this.lists == []) console.log("В файле ничего нету!!");
-  //   } catch (error) {
-  //     console.error("Ошибка при загрузке данных из файла:", error);
-  //   }
-  // }
-  // гаписать метод для добавление написанных в переменную список в файл
   addDataFile(fileName) {
     const dataToSave = this.lists.join("\n");
     fs.appendFileSync(fileName, dataToSave + "\n", "utf8");

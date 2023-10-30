@@ -6,6 +6,7 @@ const ListProducts = require("./ListProducts.js"); // импорт класса
 const openFileFs = require("./openFile.js");
 const showMenu = require("./showMenu.js");
 const outputAnArray = require("./outputAnArray.js");
+const sortList = require("./sortList.js");
 const arrayTemporary = new ListProducts(); // Создаем экземпляр класса
 // arrayTemporary.lists.push("Молоко"); пуш работает по такому пути
 function handleMenuChoice(choice) {
@@ -20,7 +21,7 @@ function handleMenuChoice(choice) {
       SearchProduct();
       break;
     case "4":
-      console.log(loadFromFile(filePath)); // вставит сюда лист
+      console.log(); // через моудь верунть открфый файл
       showMenu();
       break;
     case "5":
@@ -44,7 +45,7 @@ function ArrProduct() {
     openFileFs();
   });
 }
-// сделать обработку когда не находит слово
+// сделать обработку когда не находит слово и сделать удаление из файла
 function RemoteProduct() {
   rl.question("Введите параметр для удаления: ", (SelDelProduct) => {
     const productsArray = outputAnArray();
@@ -70,27 +71,30 @@ function SearchProduct() {
     showMenu();
   });
 }
-// сортировка масиива в порялка от а до я
+//
 function SortAllProduct() {
   rl.question("Хотите отсротировать масив от Я до А? (да/нет) ", (SortWhat) => {
     if (String(SortWhat) === "да") {
-      products.reverse();
-      console.log(products);
-    } else {
+      sortList();
+      openFileFs();
       console.log(
-        "Спасибо за использование системы учета товаров!\nЗакрытие программы...."
+        "Спасибо за использование системы учета товаров!\nЗавершение скрипт...."
       );
-      rl.close();
+    } else {
+      console.log("Выход в главное меню...");
+      showMenu();
     }
   });
 }
+
+// доьавить функцию полной отчистики с 2 поддверждением
 function Exit() {
   rl.question("Хотите завершить программу? (да/нет) ", (CloseProgram) => {
     if (String(CloseProgram) === "да") {
       console.log("Программа завершена.");
       rl.close();
     } else {
-      showMenu(); // Продолжаем выполнение сортировки
+      showMenu();
     }
   });
 }
