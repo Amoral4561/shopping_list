@@ -21,8 +21,7 @@ function handleMenuChoice(choice) {
       SearchProduct();
       break;
     case "4":
-      console.log(); // через моудь верунть открфый файл
-      showMenu();
+      openFileFs();
       break;
     case "5":
       SortAllProduct();
@@ -36,26 +35,35 @@ function handleMenuChoice(choice) {
       break;
   }
 }
-// не отображает + /n когда вводишь ноый эленмент и пишет их слитно
+// если поставить пробел то это будет запятая а нуэжно что что бы это было следующаяч строка
 function ArrProduct() {
   rl.question("Введите новые продукты через пробел: ", (input) => {
+    arrayTemporary.cleaningArray(arrayTemporary.lists);
     const newProduct = input.split(" ");
-    arrayTemporary.lists.push(newProduct);
+    arrayTemporary.lists.push(...newProduct);
     arrayTemporary.addDataFile("list.txt");
     openFileFs();
   });
 }
-// сделать обработку когда не находит слово и сделать удаление из файла
 function RemoteProduct() {
   rl.question("Введите параметр для удаления: ", (SelDelProduct) => {
     const productsArray = outputAnArray();
     const SelDelProductIndex = productsArray.indexOf(String(SelDelProduct));
     if (SelDelProductIndex !== -1) {
       productsArray.splice(SelDelProductIndex, 1);
+
+      const filteredArray = productsArray.filter(
+        (product) => product.trim() !== ""
+      );
+
+      fs.writeFileSync("list.txt", filteredArray.join("\n"), "utf8");
+      openFileFs();
     } else {
-      console.log("Продукт не найден.", err);
+      console.log("Продукт не найден.");
     }
-    console.log(productsArray);
+
+    // Теперь, вместо того, чтобы вывести `productsArray`, вы можете вывести `filteredArray`.
+
     showMenu();
   });
 }
@@ -77,13 +85,11 @@ function SortAllProduct() {
     if (String(SortWhat) === "да") {
       sortList();
       openFileFs();
-      console.log(
-        "Спасибо за использование системы учета товаров!\nЗавершение скрипт...."
-      );
+      console.log("Завершение скрипт....");
     } else {
       console.log("Выход в главное меню...");
-      showMenu();
     }
+    setTimeout(showMenu, 1000);
   });
 }
 

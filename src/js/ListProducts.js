@@ -23,5 +23,8 @@ class ListProducts {
     const dataToSave = this.lists.join("\n");
     fs.appendFileSync(fileName, dataToSave + "\n", "utf8");
   }
+  cleaningArray(Array) {
+    Array.splice(0, Array.length);
+  }
 }
 module.exports = ListProducts; // Экспортируем класс
